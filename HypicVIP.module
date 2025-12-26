@@ -1,0 +1,11 @@
+#!name=Hypic VIP Exclusive 🎨 - Quoc Khanh Media
+#!desc=Mở khóa toàn bộ tính năng VIP, Filter và công cụ AI của Hypic. Tự động cập nhật.
+#!author=Quoc Khanh Media
+#!version=1.0
+
+[Script]
+# Mở khóa Hypic VIP - Quoc Khanh Media
+Hypic_VIP_Unlock = type=http-response,pattern=^https?:\/\/.*hypic.*\.com\/(vip\/info|user\/profile|resource\/privilege),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/adminltqk28280828/-locketgoldquockhanhmedia/main/HypicVIP.js
+
+[MITM]
+hostname = %APPEND% *.hypicapp.com, *.hypic.com, api.hypic.com
