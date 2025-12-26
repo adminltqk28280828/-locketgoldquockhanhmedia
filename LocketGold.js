@@ -1,7 +1,6 @@
 /*
- * @name: Locket Gold Ultimate Unlock
+ * @name: Locket Gold Ultimate (RevenueCat + API Fix)
  * @author: Quoc Khanh Media
- * @description: Unlock Gold, Badge, Icon, Theme, 15s Video
  */
 
 const url = $request.url;
@@ -10,39 +9,41 @@ let body = $response.body;
 if (body) {
     let obj = JSON.parse(body);
 
-    // 1. Mở khóa Full tính năng Gold & Huy hiệu
-    if (url.includes("/v1/user/me")) {
-        obj.data = {
-            ...obj.data,
-            "is_gold": true,
-            "is_gold_member": true,
-            "gold_expiration_date": "2099-12-31T23:59:59Z",
-            "feature_flags": {
-                "can_use_themes": true,
-                "can_use_icons": true,
-                "can_record_15s": true,
-                "show_gold_badge": true
+    // 1. Xử lý cổng RevenueCat (Mở khóa tính năng Premium/Gold)
+    if (url.includes("/v1/subscribers/")) {
+        obj.subscriber.subscriptions = {
+            "gold": {
+                "is_sandbox": false,
+                "ownership_type": "PURCHASED",
+                "billing_issues_detected_at": null,
+                "period_type": "annual",
+                "expires_date": "2099-12-31T23:59:59Z",
+                "purchase_date": "2024-01-01T00:00:00Z",
+                "store": "app_store"
+            }
+        };
+        obj.subscriber.entitlements = {
+            "gold": {
+                "expires_date": "2099-12-31T23:59:59Z",
+                "purchase_date": "2024-01-01T00:00:00Z",
+                "product_identifier": "locket_gold_annual"
             }
         };
     }
 
-    // 2. Ép trạng thái Subscription (Để duy trì sau khi tắt VPN)
-    if (url.includes("/v1/subscriptions")) {
-        obj = {
-            "subscriptions": [{
-                "type": "gold",
-                "status": "active",
-                "expires_at": "2099-12-31T23:59:59Z",
-                "is_trial": false
-            }],
-            "entitlements": ["gold"]
-        };
-    }
-
-    // 3. Mở giới hạn quay Video 15 giây
-    if (url.includes("/v1/config")) {
-        obj.max_video_duration = 15;
-        obj.video_limit = 15;
+    // 2. Xử lý cổng Locket-labs (Mở video 15s và Huy hiệu)
+    if (url.includes("/v1/user/me") || url.includes("/v1/config")) {
+        if (obj.data) {
+            obj.data.is_gold = true;
+            obj.data.feature_flags = {
+                ...obj.data.feature_flags,
+                "can_use_themes": true,
+                "can_use_icons": true,
+                "can_record_15s": true,
+                "show_gold_badge": true
+            };
+        }
+        if (obj.video_limit) obj.video_limit = 15;
     }
 
     body = JSON.stringify(obj);
