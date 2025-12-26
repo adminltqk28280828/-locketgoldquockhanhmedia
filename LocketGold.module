@@ -1,15 +1,19 @@
-#!name=Locket Gold 🏅 - Quoc Khanh Media
-#!desc=Mở khoá Locket Gold, Icon, Theme & Video 15s. Tự động cập nhật.
+#!name=Locket Gold Pro 🏅 - Quoc Khanh Media
+#!desc=Bản siêu chuyên nghiệp: Mở khóa Gold, Badge, Icon/Theme & Video 15s. Tự động bypass cache.
 #!author=Quoc Khanh Media
-#!version=10
+#!version=10.5
+#!icon=https://raw.githubusercontent.com/adminltqk28280828/-locketgoldquockhanhmedia/main/icon.png
 
 [General]
-# Giả lập User-Agent của iOS 26 (tương lai) để bypass kiểm tra phiên bản
+# Giả lập thiết bị để bypass kiểm tra server
 user-agent = Locket/1.0.0 (iPhone; iOS 26; Scale/3.00)
 
 [Script]
-# Xử lý RevenueCat và API Locket
-Locket_Gold_All = type=http-response,pattern=^https?:\/\/(api\.revenuecat\.com\/v1\/(subscribers|receipts)|api\.locket-labs\.com\/v1\/(user\/me|config)),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/adminltqk28280828/-locketgoldquockhanhmedia/main/LocketGold.js
+# Xử lý xóa Header để ép App nhận dữ liệu mới (Request)
+Locket_Header = type=http-request,pattern=^https?:\/\/api\.revenuecat\.com\/v1\/(subscribers|receipts),script-path=https://raw.githubusercontent.com/NightmarketServer/Locket/refs/heads/main/header.js
+
+# Xử lý ghi đè dữ liệu Gold (Response)
+Locket_Gold_Main = type=http-response,pattern=^https?:\/\/(api\.revenuecat\.com\/v1\/(subscribers|receipts)|api\.locket-labs\.com\/v1\/(user\/me|config)),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/adminltqk28280828/-locketgoldquockhanhmedia/main/LocketGold.js
 
 [MITM]
 hostname = %APPEND% api.revenuecat.com, api.locket-labs.com
