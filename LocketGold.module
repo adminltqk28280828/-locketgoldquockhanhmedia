@@ -1,10 +1,15 @@
-#!name=Locket Gold Ultimate (Quoc Khanh Media)
-#!desc=Mở khóa Locket Gold, Huy hiệu, Icon và Video 15s.
+#!name=Locket Gold 🏅 - Quoc Khanh Media
+#!desc=Mở khoá Locket Gold, Icon, Theme & Video 15s. Tự động cập nhật.
 #!author=Quoc Khanh Media
+#!version=10
+
+[General]
+# Giả lập User-Agent của iOS 26 (tương lai) để bypass kiểm tra phiên bản
+user-agent = Locket/1.0.0 (iPhone; iOS 26; Scale/3.00)
 
 [Script]
-# Locket Gold Unlocker - Cấu hình chuẩn cho adminltqk28280828
-Locket_Gold = type=http-response,pattern=^https?:\/\/api\.locket-labs\.com\/v1\/(user\/me|subscriptions|config),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/adminltqk28280828/-locketgoldquockhanhmedia/main/LocketGold.js
+# Xử lý RevenueCat và API Locket
+Locket_Gold_All = type=http-response,pattern=^https?:\/\/(api\.revenuecat\.com\/v1\/(subscribers|receipts)|api\.locket-labs\.com\/v1\/(user\/me|config)),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/adminltqk28280828/-locketgoldquockhanhmedia/main/LocketGold.js
 
 [MITM]
-hostname = %APPEND% api.locket-labs.com
+hostname = %APPEND% api.revenuecat.com, api.locket-labs.com
