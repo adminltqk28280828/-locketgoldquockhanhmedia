@@ -1,6 +1,7 @@
 /*
- * @name: Locket Gold Ultimate (RevenueCat + API Fix)
+ * @name: Locket Gold Ultimate Pro
  * @author: Quoc Khanh Media
+ * @description: Hệ thống mở khóa chuyên nghiệp cho RevenueCat & Locket API
  */
 
 const url = $request.url;
@@ -9,7 +10,7 @@ let body = $response.body;
 if (body) {
     let obj = JSON.parse(body);
 
-    // 1. Xử lý cổng RevenueCat (Mở khóa tính năng Premium/Gold)
+    // 1. Mở khóa cổng RevenueCat (Premium Status)
     if (url.includes("/v1/subscribers/")) {
         obj.subscriber.subscriptions = {
             "gold": {
@@ -31,7 +32,7 @@ if (body) {
         };
     }
 
-    // 2. Xử lý cổng Locket-labs (Mở video 15s và Huy hiệu)
+    // 2. Mở khóa tính năng App (Huy hiệu, Icon, Video 15s)
     if (url.includes("/v1/user/me") || url.includes("/v1/config")) {
         if (obj.data) {
             obj.data.is_gold = true;
@@ -43,10 +44,11 @@ if (body) {
                 "show_gold_badge": true
             };
         }
+        if (obj.max_video_duration) obj.max_video_duration = 15;
         if (obj.video_limit) obj.video_limit = 15;
     }
 
-    body = JSON.stringify(obj);
+    $done({ body: JSON.stringify(obj) });
+} else {
+    $done({});
 }
-
-$done({ body });
