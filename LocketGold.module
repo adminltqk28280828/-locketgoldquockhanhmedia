@@ -1,0 +1,10 @@
+#!name=Locket Gold Exclusive (Quoc Khanh Media)
+#!desc=Mở khóa Locket Gold, Badge, Icon/Theme và quay video 15s. Tự động cập nhật từ GitHub.
+#!author=Quoc Khanh Media
+
+[Script]
+# Locket Gold Unlocker
+Locket_Gold = type=http-response,pattern=^https?:\/\/api\.locket-labs\.com\/v1\/(user\/me|subscriptions|config),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/adminltqk28280828/meituvipquockhanhmedia/main/LocketGold.js
+
+[MITM]
+hostname = %APPEND% api.locket-labs.com, *.locketcamera.com
